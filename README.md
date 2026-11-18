@@ -1,8 +1,6 @@
-# Website Karang Taruna (Backup - Node.js + SQLite)
+# Website Karang Taruna (Node.js + SQLite)
 
-Versi duplikat/backup dari project website Karang Taruna menggunakan **Node.js (Express) + SQLite** (`node:sqlite` bawaan Node.js). Dilengkapi halaman publik dinamis dan **panel admin**.
-
-Project utama (untuk deploy cPanel): `../WebsiteKarangTarunaUtamaPHP` (PHP + MySQL/MariaDB).
+Versi website Karang Taruna berbasis **Node.js (Express) + SQLite** (`node:sqlite` bawaan Node.js), dilengkapi halaman publik dinamis dan **panel admin**. Cocok untuk demo/presentasi; project utama (PHP + MySQL/MariaDB untuk deploy cPanel) tersedia sebagai versi terpisah.
 
 ## Fitur
 - **Publik (tanpa login):** Beranda, Anggota/Pengurus (tab per seksi), Jadwal Kegiatan, Kas (rincian + filter periode/kategori & lampiran), Kontak, dan detail Berita.
@@ -42,7 +40,6 @@ Port bisa diubah dengan environment variable `PORT`, contoh (PowerShell): `$env:
 - `public/` — aset statis (`assets/`, `css/`, `js/`, `uploads/`)
 - `middleware/` — auth & upload
 - `utils.js` — helper
-- `_reference/` — salinan HTML statis awal (referensi)
 
 ## Catatan
 - Database SQLite dibuat otomatis di `db/karangtaruna.sqlite` saat server pertama kali dijalankan.

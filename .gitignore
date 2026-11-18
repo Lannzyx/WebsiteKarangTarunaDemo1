@@ -21,8 +21,8 @@ db/*.sqlite-shm
 db/*.sqlite-wal
 
 # Runtime/user-uploaded files (keep folder structure with .gitkeep)
-public/uploads/*
-!public/uploads/.gitkeep
+public/uploads/**
+!public/uploads/**/
 !public/uploads/**/.gitkeep
 
 # Env/secrets
