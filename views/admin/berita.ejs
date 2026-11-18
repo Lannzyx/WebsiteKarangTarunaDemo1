@@ -1,0 +1,50 @@
+<%- include('../partials/admin_header') %>
+<div class="admin-top"><h1>Kelola Berita</h1><% if(action==='list'){ %><a class="btn btn-primary" href="/admin/berita?action=add">+ Tambah Berita</a><% } else { %><a class="btn btn-outline" href="/admin/berita">Kembali</a><% } %></div>
+
+<% if(action==='add' || action==='edit'){ const r = editRow || {}; %>
+<div class="admin-card"><h2><%= action==='edit'?'Edit':'Tambah' %> Berita</h2>
+  <form method="post" action="/admin/berita" enctype="multipart/form-data"><input type="hidden" name="form" value="save"><input type="hidden" name="id" value="<%= r.id||0 %>">
+    <div class="row row-2">
+      <div class="form-group"><label>Judul *</label><input name="title" required value="<%= r.title||'' %>"></div>
+      <div class="form-group"><label>Slug (opsional, otomatis dari judul)</label><input name="slug" value="<%= r.slug||'' %>"></div>
+    </div>
+    <div class="row row-3">
+      <div class="form-group"><label>Tanggal</label><input type="date" name="date" value="<%= r.date||'' %>"></div>
+      <div class="form-group"><label>Kategori</label><input name="category" value="<%= r.category||'' %>"></div>
+      <div class="form-group"><label>Penulis</label><input name="author" value="<%= r.author || 'Admin' %>"></div>
+    </div>
+    <div class="form-group"><label>Ringkasan</label><textarea name="summary"><%= r.summary||'' %></textarea></div>
+    <div class="form-group"><label>Isi Lengkap (mendukung HTML sederhana)</label><textarea name="content" style="min-height:220px"><%= r.content||'' %></textarea></div>
+    <div class="row row-3">
+      <div class="form-group"><label>Foto/Gambar</label><input type="file" name="image" accept="image/*">
+        <% if(r.image){ %><div class="small mt-1">Saat ini: <a href="/<%= r.image %>" target="_blank">lihat</a></div><% } %></div>
+      <div class="form-group"><label>Urutan/Prioritas</label><input type="number" name="sort_order" value="<%= (r.sort_order!=null?r.sort_order:0) %>"></div>
+      <div class="form-group"><label>Status</label>
+        <div><label><input type="checkbox" name="is_published" <%= (r.is_published==null || r.is_published)?'checked':'' %>> Publik (tampil)</label></div>
+        <div><label><input type="checkbox" name="is_highlight" <%= r.is_highlight?'checked':'' %>> Sorotan/Highlight di Beranda</label></div>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Simpan</button> <a class="btn btn-outline" href="/admin/berita">Batal</a>
+  </form>
+</div>
+<% } else { %>
+<div class="admin-card"><div class="table-wrap"><table>
+  <thead><tr><th>Judul</th><th>Tanggal</th><th>Kategori</th><th>Status</th><th>Highlight</th><th>Urutan</th><th>Aksi</th></tr></thead>
+  <tbody>
+  <% if(!rows || !rows.length){ %><tr><td colspan="7" class="muted">Belum ada berita.</td></tr><% } %>
+  <% (rows||[]).forEach(r=>{ %>
+    <tr>
+      <td><strong><%= r.title %></strong><div class="small muted">/berita?slug=<%= r.slug %></div></td>
+      <td><%= r.date || '' %></td><td><%= r.category || '' %></td>
+      <td><% if(r.is_published){ %><span class="tag">Publik</span><% } else { %>Draft<% } %></td>
+      <td><%= r.is_highlight ? 'Ya' : '-' %></td><td><%= r.sort_order||0 %></td>
+      <td class="table-actions">
+        <a class="btn btn-outline btn-sm" href="/berita?slug=<%= encodeURIComponent(r.slug) %>" target="_blank">Lihat</a>
+        <a class="btn btn-primary btn-sm" href="/admin/berita?action=edit&id=<%= r.id %>">Edit</a>
+        <form method="post" action="/admin/berita" class="inline-form" onsubmit="return confirm('Hapus berita ini?')"><input type="hidden" name="form" value="delete"><input type="hidden" name="id" value="<%= r.id %>"><button class="btn btn-danger btn-sm" type="submit">Hapus</button></form>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody></table></div></div>
+<% } %>
+<%- include('../partials/admin_footer') %>

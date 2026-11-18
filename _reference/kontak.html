@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kontak Karang Taruna, pengaduan via WhatsApp, lokasi, dan media sosial.">
+  <title>Kontak - Karang Taruna</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">
+        <img src="assets/img/logo/logo.jpg" alt="Logo Karang Taruna">
+        <span>Karang Taruna</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Buka menu">☰ Menu</button>
+      <nav>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="anggota.html">Anggota</a></li>
+          <li><a href="jadwal.html">Jadwal Kegiatan</a></li>
+          <li><a href="kas.html">Kas</a></li>
+          <li><a class="active" href="kontak.html">Kontak</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-head">
+      <div class="container">
+        <h1>Kontak Kami</h1>
+        <p class="muted">Hubungi pengurus Karang Taruna untuk informasi, kerja sama, atau pengaduan. (Data kontak di bawah adalah placeholder — silakan ganti dengan data resmi.)</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid grid-2">
+          <div class="card">
+            <h2>Informasi &amp; Kontak Anggota</h2>
+            <ul class="info-list">
+              <li><span class="info-icon">📍</span><div><strong>Alamat (placeholder)</strong><br>Jl. Contoh Alamat No. 00, Kelurahan/Desa, Kecamatan, Kota/Kabupaten</div></li>
+              <li><span class="info-icon">📞</span><div><strong>Telepon/WhatsApp (placeholder)</strong><br>08xx-xxxx-xxxx (Ketua/Sekretariat)</div></li>
+              <li><span class="info-icon">✉️</span><div><strong>Email (placeholder)</strong><br>info@example.com</div></li>
+              <li><span class="info-icon">🕒</span><div><strong>Waktu layanan (contoh)</strong><br>Senin–Sabtu, 16.00–20.00 WIB</div></li>
+            </ul>
+
+            <h3 class="mt-2">Pengaduan via WhatsApp</h3>
+            <p>Untuk pengaduan atau pertanyaan cepat, gunakan tombol WhatsApp (popup) di kanan bawah atau tombol berikut.</p>
+            <a class="btn btn-primary" href="https://wa.me/6280000000000?text=Halo%20Karang%20Taruna,%20saya%20ingin%20menyampaikan%20pengaduan%3A%20" target="_blank" rel="noopener">Buka WhatsApp Pengaduan</a>
+            <p class="small muted mt-1">*Ganti nomor dan template pesan dengan nomor resmi.</p>
+
+            <h3 class="mt-2">Media Sosial</h3>
+            <p class="muted small">Tautan berikut adalah placeholder. Ganti dengan akun resmi Karang Taruna.</p>
+            <div class="social-links">
+              <a href="#" aria-label="Instagram (placeholder)">Instagram</a>
+              <a href="#" aria-label="Facebook (placeholder)">Facebook</a>
+              <a href="#" aria-label="YouTube (placeholder)">YouTube</a>
+              <a href="#" aria-label="TikTok (placeholder)">TikTok</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Form Kontak</h2>
+            <p class="muted">Kirim pesan melalui formulir ini. (Form masih placeholder — atur email/layanan pengiriman agar berfungsi.)</p>
+            <!--
+              CATATAN TEKNIS (situs statis):
+              - Ganti atribut action dengan endpoint layanan form (mis. Formspree: https://formspree.io/f/XXXXXXX)
+                atau gunakan layanan lain (EmailJS, fitur form hosting).
+              - Alternatif sederhana: ubah action menjadi "mailto:alamat@email-resmi" dan method="GET",
+                namun hasilnya bergantung pada aplikasi email pengunjung.
+              - Setelah action diisi dengan endpoint yang valid, pengiriman akan diproses oleh layanan tersebut.
+            -->
+            <form id="contact-form" action="#" method="POST">
+              <div class="form-group">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="nama@email.com" required>
+              </div>
+              <div class="form-group">
+                <label for="subjek">Subjek</label>
+                <input type="text" id="subjek" name="subjek" placeholder="Contoh: Pertanyaan kegiatan">
+              </div>
+              <div class="form-group">
+                <label for="pesan">Pesan</label>
+                <textarea id="pesan" name="pesan" placeholder="Tulis pesan Anda di sini..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Kirim Pesan</button>
+              <p class="help">*Placeholder: konfigurasi tujuan email/layanan form diperlukan agar pesan terkirim.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Lokasi</h2>
+          <p>Peta/lokasi sekretariat atau titik kegiatan Karang Taruna. (Placeholder — ganti dengan alamat &amp; embed Google Maps yang sesuai.)</p>
+        </div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Alamat</h3>
+            <p><strong>(Placeholder) Sekretariat Karang Taruna</strong><br>
+            Jl. Contoh Alamat No. 00<br>
+            Kelurahan/Desa Contoh, Kecamatan Contoh<br>
+            Kota/Kabupaten, Provinsi, Kode Pos</p>
+            <p class="mb-0"><a class="btn btn-outline" href="https://www.google.com/maps" target="_blank" rel="noopener">Buka di Google Maps (contoh)</a></p>
+            <p class="small muted mt-1">*Ganti tautan dengan link lokasi resmi.</p>
+          </div>
+          <div class="map-wrap">
+            <!-- Ganti blok placeholder ini dengan iframe Google Maps yang sesuai, contoh:
+            <iframe src="https://www.google.com/maps/embed?pb=..." loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Lokasi Karang Taruna"></iframe>
+            -->
+            <div class="map-placeholder">
+              <div>
+                <p><strong>Peta Lokasi (Placeholder)</strong></p>
+                <p class="small">Sematkan (embed) Google Maps di sini dengan mengganti bagian ini menggunakan kode iframe dari Google Maps untuk alamat resmi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>Karang Taruna</h3>
+          <p>(Placeholder) Organisasi kepemudaan yang bergerak untuk kemajuan dan kebersamaan lingkungan.</p>
+        </div>
+        <div>
+          <h3>Tautan</h3>
+          <ul class="list-clean">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="anggota.html">Anggota</a></li>
+            <li><a href="jadwal.html">Jadwal Kegiatan</a></li>
+            <li><a href="kas.html">Kas</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Kontak</h3>
+          <p class="small">(Placeholder) Alamat sekretariat<br>Telepon/WA: 08xx-xxxx-xxxx<br>Email: info@example.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">&copy; 2026 Karang Taruna. Seluruh hak cipta dilindungi.</div>
+    </div>
+  </footer>
+
+  <button class="wa-float" id="wa-float" aria-label="Buka WhatsApp pengaduan" title="Pengaduan via WhatsApp">💬</button>
+  <div class="wa-popup" id="wa-popup" role="dialog" aria-label="WhatsApp Pengaduan">
+    <div class="wa-popup-header"><strong>Pengaduan via WhatsApp</strong><button class="wa-close" id="wa-close" aria-label="Tutup">&times;</button></div>
+    <div class="wa-popup-body">
+      <p>Ada pertanyaan atau pengaduan? Sampaikan langsung kepada pengurus melalui WhatsApp.</p>
+      <a class="btn btn-primary btn-block" href="https://wa.me/6280000000000?text=Halo%20Karang%20Taruna,%20saya%20ingin%20menyampaikan%20pengaduan%3A%20" target="_blank" rel="noopener">Chat WhatsApp</a>
+      <p class="small muted mt-1">*Nomor &amp; pesan ini contoh (placeholder). Ganti dengan nomor resmi.</p>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<%- include('../partials/admin_header') %>
+<div class="admin-top"><h1>Kelola Galeri Kegiatan</h1><% if(action==='list'){ %><a class="btn btn-primary" href="/admin/galeri?action=add">+ Tambah Foto</a><% } else { %><a class="btn btn-outline" href="/admin/galeri">Kembali</a><% } %></div>
+<% if(action==='add'||action==='edit'){ const r = editRow||{}; %>
+<div class="admin-card" style="max-width:640px;"><h2><%= action==='edit'?'Edit':'Tambah' %> Foto Galeri</h2>
+  <form method="post" action="/admin/galeri" enctype="multipart/form-data"><input type="hidden" name="form" value="save"><input type="hidden" name="id" value="<%= r.id||0 %>">
+    <div class="form-group"><label>Foto <%= action==='edit'?'(kosongkan jika tidak diganti)':'*' %></label><input type="file" name="image" accept="image/*" <%= action==='add'?'required':'' %>>
+      <% if(r.image){ %><div class="mt-1"><img src="/<%= r.image %>" alt="" style="max-width:240px;border-radius:8px;border:1px solid var(--border)"></div><% } %></div>
+    <div class="form-group"><label>Keterangan</label><input name="caption" value="<%= r.caption||'' %>"></div>
+    <div class="form-group"><label>Urutan</label><input type="number" name="sort_order" value="<%= (r.sort_order!=null?r.sort_order:0) %>"></div>
+    <button class="btn btn-primary" type="submit">Simpan</button> <a class="btn btn-outline" href="/admin/galeri">Batal</a>
+  </form>
+</div>
+<% } else { %>
+<div class="admin-card"><div class="grid grid-4">
+  <% if(!rows || !rows.length){ %><p class="muted">Belum ada foto galeri.</p><% } %>
+  <% (rows||[]).forEach(r=>{ %>
+    <div class="card" style="padding:12px;">
+      <img src="/<%= r.image %>" alt="<%= r.caption||'' %>" style="width:100%;height:160px;object-fit:cover;border-radius:8px;">
+      <p class="small mt-1 mb-0"><strong><%= r.caption || '(tanpa keterangan)' %></strong></p>
+      <p class="small muted">Urutan: <%= r.sort_order||0 %></p>
+      <div class="table-actions mt-1"><a class="btn btn-primary btn-sm" href="/admin/galeri?action=edit&id=<%= r.id %>">Edit</a>
+        <form method="post" action="/admin/galeri" class="inline-form" onsubmit="return confirm('Hapus foto ini?')"><input type="hidden" name="form" value="delete"><input type="hidden" name="id" value="<%= r.id %>"><button class="btn btn-danger btn-sm" type="submit">Hapus</button></form></div>
+    </div>
+  <% }) %>
+</div></div>
+<% } %>
+<%- include('../partials/admin_footer') %>

@@ -1,0 +1,89 @@
+<%- include('../partials/header') %>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <span class="badge"><%= S('tagline') %></span>
+          <h1><%= S('hero_title') %></h1>
+          <p class="lead"><%- String(S('hero_lead')).replace(/\n/g,'<br>') %></p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/anggota">Lihat Pengurus</a>
+            <a class="btn btn-outline" href="/kontak">Hubungi Kami</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <img src="/<%= S('hero_image') %>" alt="Kegiatan <%= S('site_name') %>">
+          <p class="small muted mt-1 mb-0">Dokumentasi kegiatan <%= S('site_name') %>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Profil Singkat</h2>
+          <p><%- String(S('profil_text')).replace(/\n/g,'<br>') %></p>
+        </div>
+        <div class="grid grid-3">
+          <div class="card stat"><div class="value"><%= S('stat1_value') %></div><div class="label"><%= S('stat1_label') %></div></div>
+          <div class="card stat"><div class="value"><%= S('stat2_value') %></div><div class="label"><%= S('stat2_label') %></div></div>
+          <div class="card stat"><div class="value"><%= S('stat3_value') %></div><div class="label"><%= S('stat3_label') %></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Berita &amp; Kegiatan Terbaru</h2>
+          <p>Informasi dan kabar terbaru dari lingkungan <%= S('site_name') %>.</p>
+        </div>
+        <div class="grid grid-3">
+          <% if(!news || !news.length){ %><p class="muted">Belum ada berita.</p><% } %>
+          <% (news||[]).forEach(n=>{ %>
+          <article class="card news-card">
+            <% if(n.image){ %><img class="thumb" src="/<%= n.image %>" alt="<%= n.title %>"><% } %>
+            <div class="card-meta"><%= fmtDate(n.date) %><%= n.category ? (' · ' + n.category) : '' %></div>
+            <h3><%= n.title %></h3>
+            <p><%= n.summary %></p>
+            <a class="card-link" href="/berita?slug=<%= encodeURIComponent(n.slug) %>">Baca selengkapnya &rarr;</a>
+          </article>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Jadwal Acara Mendatang</h2>
+          <p>Sorotan jadwal acara terdekat. Lihat daftar lengkap di halaman Jadwal Kegiatan.</p>
+        </div>
+        <div class="grid grid-2">
+          <% if(!schedules || !schedules.length){ %><p class="muted">Belum ada jadwal mendatang.</p><% } %>
+          <% (schedules||[]).forEach(s=>{ %>
+          <div class="card">
+            <h3><%= s.title %></h3>
+            <p class="card-meta"><%= fmtDate(s.date) %><%= s.time_text ? (' · ' + s.time_text) : '' %></p>
+            <p><%= s.location ? ('Lokasi: ' + s.location + '. ') : '' %><%= s.description %></p>
+          </div>
+          <% }) %>
+        </div>
+        <p class="mt-2"><a class="btn btn-primary" href="/jadwal">Lihat Semua Jadwal</a></p>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Galeri Kegiatan</h2>
+          <p>Beberapa dokumentasi kegiatan <%= S('site_name') %>.</p>
+        </div>
+        <div class="grid grid-4">
+          <% if(!gallery || !gallery.length){ %><p class="muted">Belum ada foto galeri.</p><% } %>
+          <% (gallery||[]).forEach(g=>{ %>
+            <img class="card" style="padding:0; height:180px; object-fit:cover;" src="/<%= g.image %>" alt="<%= g.caption || 'Dokumentasi kegiatan' %>">
+          <% }) %>
+        </div>
+      </div>
+    </section>
+<%- include('../partials/footer') %>

@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+    <section class="page-head">
+      <div class="container">
+        <h1>Anggota &amp; Pengurus</h1>
+        <p class="muted">Struktur dan daftar pengurus <%= S('site_name') %> berdasarkan komponen/bidang/seksi.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Struktur Organisasi</h2>
+          <p>Referensi struktur kepengurusan <%= S('site_name') %>.</p>
+        </div>
+        <div class="card" style="max-width:900px; margin:0 auto;">
+          <img src="/<%= S('struktur_image') %>" alt="Struktur organisasi <%= S('site_name') %>" style="width:100%; height:auto; border-radius:8px;">
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Daftar Pengurus</h2>
+          <p>Pilih tab untuk melihat pengurus berdasarkan komponen atau seksi.</p>
+        </div>
+
+        <% if(!sections || !sections.length){ %><p class="muted">Belum ada data seksi/pengurus.</p><% } else { %>
+        <div class="tabs" role="tablist" aria-label="Komponen pengurus">
+          <% sections.forEach((s,i)=>{ %>
+            <button class="tab-btn <%= i===0?'active':'' %>" data-tab="sec-<%= s.id %>" role="tab" aria-selected="<%= i===0?'true':'false' %>"><%= s.name %></button>
+          <% }) %>
+        </div>
+
+        <% sections.forEach((s,i)=>{ const members = membersBy[s.id] || []; %>
+          <div class="tab-panel <%= i===0?'active':'' %>" data-panel="sec-<%= s.id %>">
+            <h3><%= s.name %></h3>
+            <% if(!members.length){ %><p class="muted">Belum ada anggota aktif di seksi ini.</p><% } else { %>
+            <div class="member-grid">
+              <% members.forEach(m=>{ %>
+              <div class="card member-card">
+                <% if(m.photo){ %><img src="/<%= m.photo %>" alt="Foto <%= m.name %>"><% } else { %><img src="/assets/img/logo/logo.jpg" alt="Foto <%= m.name %>" style="object-fit:contain;padding:20px;background:#f3f4f6;"><% } %>
+                <p class="name"><%= m.name %></p>
+                <p class="role"><%= m.jabatan %></p>
+                <% if(m.phone){ %><p class="small muted" style="margin:4px 0 0;"><%= m.phone %></p><% } %>
+                <% if(m.bio){ %><p class="small" style="margin:6px 0 0;"><%- String(m.bio).replace(/\n/g,'<br>') %></p><% } %>
+              </div>
+              <% }) %>
+            </div>
+            <% } %>
+          </div>
+        <% }) %>
+        <% } %>
+      </div>
+    </section>
+<%- include('../partials/footer') %>

@@ -1,0 +1,58 @@
+<%- include('../partials/admin_header') %>
+<div class="admin-top"><h1>Pengaturan &amp; Konten Situs</h1></div>
+<form method="post" action="/admin/pengaturan" enctype="multipart/form-data">
+
+  <div class="admin-card"><h2>Umum &amp; Beranda</h2>
+    <div class="row row-2">
+      <div class="form-group"><label>Nama Situs</label><input name="site_name" value="<%= vals.site_name||'' %>"></div>
+      <div class="form-group"><label>Tagline/Badge</label><input name="tagline" value="<%= vals.tagline||'' %>"></div>
+    </div>
+    <div class="form-group"><label>Judul Hero (Beranda)</label><input name="hero_title" value="<%= vals.hero_title||'' %>"></div>
+    <div class="form-group"><label>Teks Pembuka Hero</label><textarea name="hero_lead"><%= vals.hero_lead||'' %></textarea></div>
+    <div class="form-group"><label>Teks Profil Singkat</label><textarea name="profil_text"><%= vals.profil_text||'' %></textarea></div>
+    <div class="form-group"><label>Deskripsi Footer</label><textarea name="footer_about"><%= vals.footer_about||'' %></textarea></div>
+    <div class="row row-3">
+      <div class="form-group"><label>Logo Situs (unggah untuk ganti)</label><input type="file" name="logo" accept="image/*"><% if(vals.logo){ %><div class="small mt-1">Saat ini: <a href="/<%= vals.logo %>" target="_blank">lihat</a></div><% } %></div>
+      <div class="form-group"><label>Gambar Hero (unggah untuk ganti)</label><input type="file" name="hero_image" accept="image/*"><% if(vals.hero_image){ %><div class="small mt-1">Saat ini: <a href="/<%= vals.hero_image %>" target="_blank">lihat</a></div><% } %></div>
+      <div class="form-group"><label>Gambar Struktur Organisasi</label><input type="file" name="struktur_image" accept="image/*"><% if(vals.struktur_image){ %><div class="small mt-1">Saat ini: <a href="/<%= vals.struktur_image %>" target="_blank">lihat</a></div><% } %></div>
+    </div>
+    <h3>Stat/Highlight Beranda (3 kartu)</h3>
+    <div class="row row-3">
+      <div class="form-group"><label>Stat 1 - Nilai</label><input name="stat1_value" value="<%= vals.stat1_value||'' %>"><label>Label</label><input name="stat1_label" value="<%= vals.stat1_label||'' %>"></div>
+      <div class="form-group"><label>Stat 2 - Nilai</label><input name="stat2_value" value="<%= vals.stat2_value||'' %>"><label>Label</label><input name="stat2_label" value="<%= vals.stat2_label||'' %>"></div>
+      <div class="form-group"><label>Stat 3 - Nilai</label><input name="stat3_value" value="<%= vals.stat3_value||'' %>"><label>Label</label><input name="stat3_label" value="<%= vals.stat3_label||'' %>"></div>
+    </div>
+  </div>
+
+  <div class="admin-card"><h2>Kontak &amp; WhatsApp</h2>
+    <div class="form-group"><label>Alamat</label><textarea name="address"><%= vals.address||'' %></textarea></div>
+    <div class="row row-3">
+      <div class="form-group"><label>Telepon/WA (tampil)</label><input name="phone" value="<%= vals.phone||'' %>"></div>
+      <div class="form-group"><label>Email</label><input name="email" value="<%= vals.email||'' %>"></div>
+      <div class="form-group"><label>Jam Layanan</label><input name="hours" value="<%= vals.hours||'' %>"></div>
+    </div>
+    <div class="row row-2">
+      <div class="form-group"><label>Nomor WA (format internasional, tanpa +, contoh 62812...)</label><input name="wa_number" value="<%= vals.wa_number||'' %>"></div>
+      <div class="form-group"><label>Template Pesan WA</label><input name="wa_template" value="<%= vals.wa_template||'' %>"></div>
+    </div>
+    <div class="form-group"><label>Catatan Kontak (opsional)</label><textarea name="contact_note"><%= vals.contact_note||'' %></textarea></div>
+  </div>
+
+  <div class="admin-card"><h2>Media Sosial</h2>
+    <div class="row row-2">
+      <div class="form-group"><label>Instagram (URL)</label><input name="social_instagram" value="<%= vals.social_instagram||'' %>"></div>
+      <div class="form-group"><label>Facebook (URL)</label><input name="social_facebook" value="<%= vals.social_facebook||'' %>"></div>
+      <div class="form-group"><label>YouTube (URL)</label><input name="social_youtube" value="<%= vals.social_youtube||'' %>"></div>
+      <div class="form-group"><label>TikTok (URL)</label><input name="social_tiktok" value="<%= vals.social_tiktok||'' %>"></div>
+    </div>
+  </div>
+
+  <div class="admin-card"><h2>Lokasi / Maps</h2>
+    <div class="form-group"><label>Link Google Maps</label><input name="maps_link" value="<%= vals.maps_link||'' %>"></div>
+    <div class="form-group"><label>Kode Embed Google Maps (iframe)</label><textarea name="maps_embed" placeholder="Tempel kode &lt;iframe ...&gt; dari Google Maps di sini"><%= vals.maps_embed||'' %></textarea>
+      <p class="help">Jika diisi, iframe ini akan ditampilkan di halaman Kontak. Kosongkan untuk menampilkan placeholder.</p></div>
+  </div>
+
+  <button class="btn btn-primary" type="submit">Simpan Semua Pengaturan</button>
+</form>
+<%- include('../partials/admin_footer') %>

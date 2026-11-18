@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+    <section class="page-head">
+      <div class="container">
+        <p class="small muted"><a href="/">Beranda</a> &rsaquo; <a href="/berita">Berita</a> &rsaquo; <%= n.title %></p>
+        <h1><%= n.title %></h1>
+        <p class="card-meta"><%= fmtDate(n.date) %><%= n.category ? (' · ' + n.category) : '' %><%= n.author ? (' · Oleh ' + n.author) : '' %></p>
+      </div>
+    </section>
+    <section class="section" style="padding-top:16px;">
+      <div class="container" style="max-width:860px;">
+        <article class="card">
+          <% if(n.image){ %><img src="/<%= n.image %>" alt="<%= n.title %>" style="width:100%;max-height:420px;object-fit:cover;border-radius:10px;margin-bottom:16px;"><% } %>
+          <% if(n.summary){ %><p class="lead"><strong><%= n.summary %></strong></p><% } %>
+          <div class="content">
+            <% const content = n.content||''; const hasHtml = /<[a-z][\s\S]*>/i.test(content); %>
+            <% if(hasHtml){ %><%- content %><% } else { %><p><%- String(content).replace(/\n/g,'<br>') %></p><% } %>
+          </div>
+        </article>
+        <p class="mt-2"><a class="btn btn-outline" href="/berita">&larr; Kembali ke daftar berita</a></p>
+      </div>
+    </section>
+<%- include('../partials/footer') %>

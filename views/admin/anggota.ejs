@@ -1,0 +1,88 @@
+<%- include('../partials/admin_header') %>
+<div class="admin-top"><h1>Kelola Anggota &amp; Pengurus</h1><div class="table-actions">
+  <a class="btn btn-primary" href="/admin/anggota?action=add_member">+ Tambah Anggota</a>
+  <a class="btn btn-outline" href="/admin/anggota?action=add_section">+ Tambah Seksi/Komponen</a>
+  <% if(action!=='list'){ %><a class="btn btn-outline" href="/admin/anggota">Kembali</a><% } %>
+</div></div>
+
+<% if(action==='add_section' || action==='edit_section'){ const r = editSection||{}; %>
+<div class="admin-card" style="max-width:640px;">
+  <h2><%= action==='edit_section'?'Edit':'Tambah' %> Seksi/Komponen</h2>
+  <form method="post" action="/admin/anggota"><input type="hidden" name="form" value="save_section"><input type="hidden" name="id" value="<%= r.id||0 %>">
+    <div class="form-group"><label>Nama Seksi/Komponen *</label><input name="name" required value="<%= r.name||'' %>"></div>
+    <div class="row row-2">
+      <div class="form-group"><label>Slug (opsional)</label><input name="slug" value="<%= r.slug||'' %>"></div>
+      <div class="form-group"><label>Urutan</label><input type="number" name="sort_order" value="<%= (r.sort_order!=null?r.sort_order:0) %>"></div>
+    </div>
+    <button class="btn btn-primary" type="submit">Simpan Seksi</button> <a class="btn btn-outline" href="/admin/anggota">Batal</a>
+  </form>
+</div>
+<% } %>
+
+<% if(action==='add_member' || action==='edit_member'){ const r = editMember||{}; const selSec = r.section_id || section_id || 0; %>
+<div class="admin-card">
+  <h2><%= action==='edit_member'?'Edit':'Tambah' %> Anggota/Pengurus</h2>
+  <form method="post" action="/admin/anggota" enctype="multipart/form-data"><input type="hidden" name="form" value="save_member"><input type="hidden" name="id" value="<%= r.id||0 %>">
+    <div class="row row-2">
+      <div class="form-group"><label>Nama *</label><input name="name" required value="<%= r.name||'' %>"></div>
+      <div class="form-group"><label>Jabatan</label><input name="jabatan" value="<%= r.jabatan||'' %>"></div>
+    </div>
+    <div class="row row-3">
+      <div class="form-group"><label>Seksi/Komponen *</label>
+        <select name="section_id" required>
+          <option value="">-- Pilih --</option>
+          <% (sections||[]).forEach(s=>{ %><option value="<%= s.id %>" <%= (Number(selSec)===s.id)?'selected':'' %>><%= s.name %></option><% }) %>
+        </select>
+      </div>
+      <div class="form-group"><label>Nomor Kontak</label><input name="phone" value="<%= r.phone||'' %>"></div>
+      <div class="form-group"><label>Urutan Tampil</label><input type="number" name="sort_order" value="<%= (r.sort_order!=null?r.sort_order:0) %>"></div>
+    </div>
+    <div class="form-group"><label>Bio Singkat</label><textarea name="bio"><%= r.bio||'' %></textarea></div>
+    <div class="row row-2">
+      <div class="form-group"><label>Foto</label><input type="file" name="photo" accept="image/*,.heic,.heif">
+        <% if(r.photo){ %><div class="small mt-1">Saat ini: <a href="/<%= r.photo %>" target="_blank">lihat</a></div><% } %></div>
+      <div class="form-group"><label>Status</label><div><label><input type="checkbox" name="is_active" <%= (r.is_active==null || r.is_active)?'checked':'' %>> Aktif (tampil di publik)</label></div></div>
+    </div>
+    <button class="btn btn-primary" type="submit">Simpan Anggota</button> <a class="btn btn-outline" href="/admin/anggota">Batal</a>
+  </form>
+</div>
+<% } %>
+
+<div class="admin-card">
+  <h2>Daftar Seksi/Komponen &amp; Anggota</h2>
+  <p class="small muted">Admin dapat menambah, mengubah nama, dan menghapus seksi/komponen. Menghapus seksi akan menghapus anggota di dalamnya.</p>
+  <% if(!sections || !sections.length){ %><p class="muted">Belum ada seksi/komponen.</p><% } %>
+  <% (sections||[]).forEach(s=>{ const members = (membersBy && membersBy[s.id]) || []; %>
+    <div style="border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px;background:#fbfdff;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
+        <div><strong><%= s.name %></strong> <span class="muted small">(<%= s.slug %>, urutan <%= s.sort_order||0 %>)</span></div>
+        <div class="table-actions">
+          <a class="btn btn-outline btn-sm" href="/admin/anggota?action=add_member&section_id=<%= s.id %>">+ Anggota</a>
+          <a class="btn btn-primary btn-sm" href="/admin/anggota?action=edit_section&id=<%= s.id %>">Edit Seksi</a>
+          <form method="post" action="/admin/anggota" class="inline-form" onsubmit="return confirm('Hapus seksi ini beserta seluruh anggotanya?')"><input type="hidden" name="form" value="delete_section"><input type="hidden" name="id" value="<%= s.id %>"><button class="btn btn-danger btn-sm" type="submit">Hapus Seksi</button></form>
+        </div>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nama</th><th>Jabatan</th><th>Kontak</th><th>Foto</th><th>Status</th><th>Urutan</th><th>Aksi</th></tr></thead>
+        <tbody>
+        <% if(!members.length){ %><tr><td colspan="7" class="muted">Belum ada anggota.</td></tr><% } %>
+        <% members.forEach(m=>{ %>
+          <tr>
+            <td><strong><%= m.name %></strong><% if(m.bio){ %><div class="small muted"><%= String(m.bio).slice(0,60) %><%= (m.bio.length>60?'…':'') %></div><% } %></td>
+            <td><%= m.jabatan||'' %></td>
+            <td><%= m.phone||'' %></td>
+            <td><% if(m.photo){ %><a href="/<%= m.photo %>" target="_blank">lihat</a><% } else { %>-<% } %></td>
+            <td><%= m.is_active ? 'Aktif' : 'Nonaktif' %></td>
+            <td><%= m.sort_order||0 %></td>
+            <td class="table-actions">
+              <a class="btn btn-primary btn-sm" href="/admin/anggota?action=edit_member&id=<%= m.id %>">Edit</a>
+              <form method="post" action="/admin/anggota" class="inline-form" onsubmit="return confirm('Hapus anggota ini?')"><input type="hidden" name="form" value="delete_member"><input type="hidden" name="id" value="<%= m.id %>"><button class="btn btn-danger btn-sm" type="submit">Hapus</button></form>
+            </td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table></div>
+    </div>
+  <% }) %>
+</div>
+<%- include('../partials/admin_footer') %>

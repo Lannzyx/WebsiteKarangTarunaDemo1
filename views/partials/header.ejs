@@ -1,0 +1,34 @@
+<%
+  const site = S('site_name');
+  const pageTitle = title ? (title + ' - ' + site) : site;
+  const logo = S('logo');
+  const waNum = String(S('wa_number')||'').replace(/\D+/g,'');
+  const waTpl = encodeURIComponent(S('wa_template')||'');
+  const waLink = 'https://wa.me/' + waNum + (waTpl ? ('?text=' + waTpl) : '');
+  const nav = [['/','Beranda','index'],['/anggota','Anggota','anggota'],['/jadwal','Jadwal Kegiatan','jadwal'],['/kas','Kas','kas'],['/kontak','Kontak','kontak']];
+%>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="<%= (typeof desc !== 'undefined' && desc) ? desc : ('Website ' + site) %>">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten utama</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="/"><img src="/<%= logo %>" alt="Logo <%= site %>"><span><%= site %></span></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Buka menu">☰ Menu</button>
+      <nav>
+        <ul class="nav-menu" id="nav-menu">
+          <% nav.forEach(([href,label,key])=>{ %>
+            <li><a class="<%= active===key?'active':'' %>" href="<%= href %>"><%= label %></a></li>
+          <% }) %>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main">

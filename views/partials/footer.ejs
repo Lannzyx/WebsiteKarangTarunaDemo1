@@ -1,0 +1,44 @@
+<%
+  const site = S('site_name');
+  const waNum = String(S('wa_number')||'').replace(/\D+/g,'');
+  const waTpl = encodeURIComponent(S('wa_template')||'');
+  const waLink = 'https://wa.me/' + waNum + (waTpl ? ('?text=' + waTpl) : '');
+%>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3><%= site %></h3>
+          <p><%= S('footer_about') %></p>
+        </div>
+        <div>
+          <h3>Tautan</h3>
+          <ul class="list-clean">
+            <li><a href="/">Beranda</a></li>
+            <li><a href="/anggota">Anggota</a></li>
+            <li><a href="/jadwal">Jadwal Kegiatan</a></li>
+            <li><a href="/kas">Kas</a></li>
+            <li><a href="/kontak">Kontak</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Kontak</h3>
+          <p class="small"><%- String(S('address')).replace(/\n/g,'<br>') %><br>Telepon/WA: <%= S('phone') %><br>Email: <%= S('email') %></p>
+        </div>
+      </div>
+      <div class="footer-bottom">&copy; <%= new Date().getFullYear() %> <%= site %>. Seluruh hak cipta dilindungi.</div>
+    </div>
+  </footer>
+  <button class="wa-float" id="wa-float" aria-label="Buka WhatsApp pengaduan" title="Pengaduan via WhatsApp">💬</button>
+  <div class="wa-popup" id="wa-popup" role="dialog" aria-label="WhatsApp Pengaduan">
+    <div class="wa-popup-header"><strong>Pengaduan via WhatsApp</strong><button class="wa-close" id="wa-close" aria-label="Tutup">&times;</button></div>
+    <div class="wa-popup-body">
+      <p>Ada pertanyaan atau pengaduan? Sampaikan langsung kepada pengurus melalui WhatsApp.</p>
+      <a class="btn btn-primary btn-block" href="<%= waLink %>" target="_blank" rel="noopener">Chat WhatsApp</a>
+      <p class="small muted mt-1">Hubungi kami melalui WhatsApp resmi.</p>
+    </div>
+  </div>
+  <script src="/js/main.js"></script>
+</body>
+</html>

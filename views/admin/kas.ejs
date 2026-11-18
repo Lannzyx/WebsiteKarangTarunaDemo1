@@ -1,0 +1,61 @@
+<%- include('../partials/admin_header') %>
+<div class="admin-top"><h1>Kelola Kas</h1><% if(action==='list'){ %><a class="btn btn-primary" href="/admin/kas?action=add">+ Tambah Transaksi</a><% } else { %><a class="btn btn-outline" href="/admin/kas">Kembali</a><% } %></div>
+
+<% if(action==='add'||action==='edit'){ const r = editRow||{}; %>
+<div class="admin-card"><h2><%= action==='edit'?'Edit':'Tambah' %> Transaksi Kas</h2>
+  <form method="post" action="/admin/kas" enctype="multipart/form-data"><input type="hidden" name="form" value="save"><input type="hidden" name="id" value="<%= r.id||0 %>">
+    <div class="row row-3">
+      <div class="form-group"><label>Tanggal</label><input type="date" name="date" value="<%= r.date||'' %>"></div>
+      <div class="form-group"><label>Jenis *</label>
+        <select name="type" required>
+          <option value="pemasukan" <%= r.type==='pemasukan'?'selected':'' %>>Pemasukan</option>
+          <option value="pengeluaran" <%= r.type==='pengeluaran'?'selected':'' %>>Pengeluaran</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Jumlah (Rp) *</label><input name="amount" required value="<%= (r.amount!=null?r.amount:'') %>" placeholder="contoh: 300000"></div>
+    </div>
+    <div class="row row-2">
+      <div class="form-group"><label>Uraian / Penggunaan Kas *</label><input name="description" required value="<%= r.description||'' %>"></div>
+      <div class="form-group"><label>Kategori / Nama Event</label><input name="category" value="<%= r.category||'' %>" placeholder="mis. Kerja Bakti Nov 2026"></div>
+    </div>
+    <div class="form-group"><label>Bukti/Lampiran (gambar/PDF, publik dapat melihat)</label><input type="file" name="attachment" accept="image/*,.pdf">
+      <% if(r.attachment){ %><div class="small mt-1">Saat ini: <a href="/<%= r.attachment %>" target="_blank">lihat/unduh</a></div><% } %></div>
+    <button class="btn btn-primary" type="submit">Simpan</button> <a class="btn btn-outline" href="/admin/kas">Batal</a>
+  </form>
+</div>
+<% } else { const f=filters||{}; const masuk=(sums&&sums.masuk)||0; const keluar=(sums&&sums.keluar)||0; %>
+<div class="grid grid-3" style="margin-bottom:16px;">
+  <div class="admin-card stat"><div class="label">Total Pemasukan</div><div class="value" style="font-size:1.4rem;color:var(--success)"><%= fmtRp(masuk) %></div></div>
+  <div class="admin-card stat"><div class="label">Total Pengeluaran</div><div class="value" style="font-size:1.4rem;color:var(--danger)"><%= fmtRp(keluar) %></div></div>
+  <div class="admin-card stat"><div class="label">Saldo</div><div class="value" style="font-size:1.4rem;"><%= fmtRp(masuk-keluar) %></div></div>
+</div>
+<div class="admin-card">
+  <h2>Filter Periode / Kategori (Event)</h2>
+  <form method="get" action="/admin/kas" class="row row-3" style="align-items:end;">
+    <div class="form-group mb-0"><label>Dari Tanggal</label><input type="date" name="from" value="<%= f.from||'' %>"></div>
+    <div class="form-group mb-0"><label>Sampai Tanggal</label><input type="date" name="to" value="<%= f.to||'' %>"></div>
+    <div class="form-group mb-0"><label>Kategori / Event</label>
+      <select name="category"><option value="">-- Semua --</option><% (cats||[]).forEach(c=>{ %><option value="<%= c %>" <%= f.category===c?'selected':'' %>><%= c %></option><% }) %></select>
+    </div>
+    <div class="form-group mb-0" style="grid-column:1/-1"><button class="btn btn-primary" type="submit">Terapkan Filter</button> <a class="btn btn-outline" href="/admin/kas">Reset</a></div>
+  </form>
+</div>
+<div class="admin-card"><h2>Rincian Transaksi</h2><div class="table-wrap"><table>
+  <thead><tr><th>Tanggal</th><th>Uraian / Penggunaan</th><th>Kategori/Event</th><th>Jenis</th><th>Jumlah</th><th>Bukti</th><th>Aksi</th></tr></thead>
+  <tbody>
+  <% if(!rows || !rows.length){ %><tr><td colspan="7" class="muted">Belum ada transaksi.</td></tr><% } %>
+  <% (rows||[]).forEach(r=>{ %>
+    <tr>
+      <td><%= r.date||'' %></td>
+      <td><%= r.description %></td>
+      <td><%= r.category||'' %></td>
+      <td><%= (r.type||'').charAt(0).toUpperCase() + (r.type||'').slice(1) %></td>
+      <td><%= fmtRp(r.amount) %></td>
+      <td><% if(r.attachment){ %><a href="/<%= r.attachment %>" target="_blank">Lihat</a><% } else { %>-<% } %></td>
+      <td class="table-actions"><a class="btn btn-primary btn-sm" href="/admin/kas?action=edit&id=<%= r.id %>">Edit</a>
+      <form method="post" action="/admin/kas" class="inline-form" onsubmit="return confirm('Hapus transaksi ini?')"><input type="hidden" name="form" value="delete"><input type="hidden" name="id" value="<%= r.id %>"><button class="btn btn-danger btn-sm" type="submit">Hapus</button></form></td>
+    </tr>
+  <% }) %>
+  </tbody></table></div></div>
+<% } %>
+<%- include('../partials/admin_footer') %>

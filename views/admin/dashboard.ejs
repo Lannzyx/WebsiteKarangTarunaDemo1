@@ -1,0 +1,22 @@
+<%- include('../partials/admin_header') %>
+<div class="admin-top"><div><h1>Dashboard Admin</h1><p class="muted mb-0">Kelola seluruh konten website Karang Taruna dari sini.</p></div></div>
+<div class="grid grid-3">
+  <% Object.keys(counts).forEach(label=>{ %>
+    <div class="admin-card stat"><div class="value"><%= counts[label] %></div><div class="label"><%= label %></div></div>
+  <% }) %>
+  <div class="admin-card stat"><div class="value"><%= fmtRp(saldo) %></div><div class="label">Saldo Kas</div></div>
+</div>
+<div class="admin-card mt-2">
+  <h2>Akses Cepat</h2>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="/admin/berita">Kelola Berita</a>
+    <a class="btn btn-primary" href="/admin/anggota">Kelola Anggota</a>
+    <a class="btn btn-primary" href="/admin/jadwal">Kelola Jadwal</a>
+    <a class="btn btn-primary" href="/admin/kas">Kelola Kas</a>
+    <a class="btn btn-outline" href="/admin/galeri">Kelola Galeri</a>
+    <a class="btn btn-outline" href="/admin/pengaturan">Pengaturan Situs</a>
+    <a class="btn btn-outline" href="/admin/accounts">Akun Admin</a>
+  </div>
+  <p class="small muted mt-2">Pengunjung dapat melihat halaman publik tanpa login. Perubahan yang Anda simpan di sini akan tampil di website.</p>
+</div>
+<%- include('../partials/admin_footer') %>

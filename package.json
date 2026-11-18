@@ -1,0 +1,17 @@
+{
+  "name": "website-karang-taruna-backup-nodejs",
+  "version": "1.0.0",
+  "description": "Website Karang Taruna (duplikat) - Node.js + SQLite (node:sqlite) dengan panel admin",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "multer": "^2.0.1"
+  }
+}

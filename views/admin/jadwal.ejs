@@ -1,0 +1,30 @@
+<%- include('../partials/admin_header') %>
+<div class="admin-top"><h1>Kelola Jadwal Kegiatan</h1><% if(action==='list'){ %><a class="btn btn-primary" href="/admin/jadwal?action=add">+ Tambah Jadwal</a><% } else { %><a class="btn btn-outline" href="/admin/jadwal">Kembali</a><% } %></div>
+<% if(action==='add'||action==='edit'){ const r = editRow||{}; %>
+<div class="admin-card"><h2><%= action==='edit'?'Edit':'Tambah' %> Jadwal</h2>
+  <form method="post" action="/admin/jadwal"><input type="hidden" name="form" value="save"><input type="hidden" name="id" value="<%= r.id||0 %>">
+    <div class="row row-3">
+      <div class="form-group"><label>Tanggal</label><input type="date" name="date" value="<%= r.date||'' %>"></div>
+      <div class="form-group"><label>Waktu (teks)</label><input name="time_text" value="<%= r.time_text||'' %>" placeholder="mis. 19.30 WIB - selesai"></div>
+      <div class="form-group"><label>Urutan Tampil</label><input type="number" name="sort_order" value="<%= (r.sort_order!=null?r.sort_order:0) %>"></div>
+    </div>
+    <div class="form-group"><label>Nama Kegiatan *</label><input name="title" required value="<%= r.title||'' %>"></div>
+    <div class="form-group"><label>Lokasi</label><input name="location" value="<%= r.location||'' %>"></div>
+    <div class="form-group"><label>Keterangan/Deskripsi</label><textarea name="description"><%= r.description||'' %></textarea></div>
+    <div class="form-group"><label><input type="checkbox" name="is_visible" <%= (r.is_visible==null || r.is_visible)?'checked':'' %>> Tampil di publik</label></div>
+    <button class="btn btn-primary" type="submit">Simpan</button> <a class="btn btn-outline" href="/admin/jadwal">Batal</a>
+  </form>
+</div>
+<% } else { %>
+<div class="admin-card"><div class="table-wrap"><table>
+  <thead><tr><th>Tanggal</th><th>Waktu</th><th>Kegiatan</th><th>Lokasi</th><th>Tampil</th><th>Urutan</th><th>Aksi</th></tr></thead>
+  <tbody>
+  <% if(!rows || !rows.length){ %><tr><td colspan="7" class="muted">Belum ada jadwal.</td></tr><% } %>
+  <% (rows||[]).forEach(r=>{ %>
+    <tr><td><%= r.date||'' %></td><td><%= r.time_text||'' %></td><td><%= r.title %></td><td><%= r.location||'' %></td><td><%= r.is_visible ? 'Ya':'Tidak' %></td><td><%= r.sort_order||0 %></td>
+    <td class="table-actions"><a class="btn btn-primary btn-sm" href="/admin/jadwal?action=edit&id=<%= r.id %>">Edit</a>
+    <form method="post" action="/admin/jadwal" class="inline-form" onsubmit="return confirm('Hapus jadwal ini?')"><input type="hidden" name="form" value="delete"><input type="hidden" name="id" value="<%= r.id %>"><button class="btn btn-danger btn-sm" type="submit">Hapus</button></form></td></tr>
+  <% }) %>
+  </tbody></table></div></div>
+<% } %>
+<%- include('../partials/admin_footer') %>

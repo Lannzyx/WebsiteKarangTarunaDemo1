@@ -1,0 +1,80 @@
+<%- include('../partials/header') %>
+<%
+  const waNum = String(S('wa_number')||'').replace(/\D+/g,'');
+  const waTpl = encodeURIComponent(S('wa_template')||'');
+  const waLink = 'https://wa.me/' + waNum + (waTpl ? ('?text=' + waTpl) : '');
+  const mapsEmbed = S('maps_embed');
+%>
+    <section class="page-head">
+      <div class="container">
+        <h1>Kontak Kami</h1>
+        <p class="muted">Hubungi pengurus <%= S('site_name') %> untuk informasi, kerja sama, atau pengaduan.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid grid-2">
+          <div class="card">
+            <h2>Informasi &amp; Kontak</h2>
+            <ul class="info-list">
+              <li><span class="info-icon">📍</span><div><strong>Alamat</strong><br><%- String(S('address')).replace(/\n/g,'<br>') %></div></li>
+              <li><span class="info-icon">📞</span><div><strong>Telepon/WhatsApp</strong><br><%= S('phone') %></div></li>
+              <li><span class="info-icon">✉️</span><div><strong>Email</strong><br><%= S('email') %></div></li>
+              <li><span class="info-icon">🕒</span><div><strong>Waktu layanan</strong><br><%= S('hours') %></div></li>
+            </ul>
+
+            <h3 class="mt-2">Pengaduan via WhatsApp</h3>
+            <p>Untuk pengaduan atau pertanyaan cepat, gunakan tombol WhatsApp (popup) di kanan bawah atau tombol berikut.</p>
+            <a class="btn btn-primary" href="<%= waLink %>" target="_blank" rel="noopener">Buka WhatsApp Pengaduan</a>
+
+            <h3 class="mt-2">Media Sosial</h3>
+            <div class="social-links">
+              <a href="<%= S('social_instagram') %>" target="_blank" rel="noopener">Instagram</a>
+              <a href="<%= S('social_facebook') %>" target="_blank" rel="noopener">Facebook</a>
+              <a href="<%= S('social_youtube') %>" target="_blank" rel="noopener">YouTube</a>
+              <a href="<%= S('social_tiktok') %>" target="_blank" rel="noopener">TikTok</a>
+            </div>
+
+            <% if(S('contact_note')){ %><p class="mt-2 small muted"><%- String(S('contact_note')).replace(/\n/g,'<br>') %></p><% } %>
+          </div>
+
+          <div class="card">
+            <h2>Form Kontak</h2>
+            <p class="muted">Kirim pesan melalui formulir ini. (Form placeholder — hubungkan ke layanan form/email saat deploy.)</p>
+            <form id="contact-form" action="#" method="POST">
+              <div class="form-group"><label for="nama">Nama Lengkap</label><input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda" required></div>
+              <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="nama@email.com" required></div>
+              <div class="form-group"><label for="subjek">Subjek</label><input type="text" id="subjek" name="subjek" placeholder="Contoh: Pertanyaan kegiatan"></div>
+              <div class="form-group"><label for="pesan">Pesan</label><textarea id="pesan" name="pesan" placeholder="Tulis pesan Anda di sini..." required></textarea></div>
+              <button type="submit" class="btn btn-primary btn-block">Kirim Pesan</button>
+              <p class="help">*Atur tujuan email/layanan form pada saat deploy agar pesan dapat terkirim.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Lokasi</h2>
+          <p>Lokasi sekretariat atau titik kegiatan <%= S('site_name') %>.</p>
+        </div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Alamat</h3>
+            <p><strong><%= S('site_name') %></strong><br><%- String(S('address')).replace(/\n/g,'<br>') %></p>
+            <p class="mb-0"><a class="btn btn-outline" href="<%= S('maps_link') %>" target="_blank" rel="noopener">Buka di Google Maps</a></p>
+          </div>
+          <div class="map-wrap">
+            <% if(mapsEmbed && String(mapsEmbed).trim() !== ''){ %>
+              <%- mapsEmbed %>
+            <% } else { %>
+              <div class="map-placeholder"><div><p><strong>Peta Lokasi</strong></p><p class="small">Peta belum disematkan. Atur kode embed Google Maps melalui Pengaturan admin.</p></div></div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </section>
+<%- include('../partials/footer') %>

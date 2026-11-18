@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+    <section class="page-head"><div class="container"><h1>Berita &amp; Kegiatan</h1><p class="muted">Informasi dan kabar terbaru dari <%= S('site_name') %>.</p></div></section>
+    <section class="section"><div class="container"><div class="grid grid-3">
+      <% if(!rows || !rows.length){ %><p class="muted">Belum ada berita.</p><% } %>
+      <% (rows||[]).forEach(n=>{ %>
+        <article class="card news-card">
+          <% if(n.image){ %><img class="thumb" src="/<%= n.image %>" alt="<%= n.title %>"><% } %>
+          <div class="card-meta"><%= fmtDate(n.date) %><%= n.category ? (' · ' + n.category) : '' %></div>
+          <h3><%= n.title %></h3>
+          <p><%= n.summary %></p>
+          <a class="card-link" href="/berita?slug=<%= encodeURIComponent(n.slug) %>">Baca selengkapnya &rarr;</a>
+        </article>
+      <% }) %>
+    </div></div></section>
+<%- include('../partials/footer') %>

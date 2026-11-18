@@ -1,0 +1,66 @@
+<%- include('../partials/header') %>
+<% const masuk = (sums && sums.masuk)||0; const keluar=(sums&&sums.keluar)||0; const saldo = masuk-keluar; const f = filters||{}; const hasFilter = f.from||f.to||f.category; %>
+    <section class="page-head">
+      <div class="container">
+        <h1>Informasi Kas</h1>
+        <p class="muted">Transparansi informasi kas <%= S('site_name') %>. Data dikelola oleh pengurus/admin.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="card kas-total" style="max-width:680px; margin:0 auto 24px;">
+          <span class="badge">Saldo/Total Kas Saat Ini<%= hasFilter ? ' (sesuai filter)' : '' %></span>
+          <div class="amount"><%= fmtRp(saldo) %></div>
+          <p class="muted mb-0">Total pemasukan: <%= fmtRp(masuk) %> · Total pengeluaran: <%= fmtRp(keluar) %></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Filter Periode / Kategori (Event)</h2>
+          <p>Lihat penggunaan kas dan rincian berdasarkan rentang tanggal dan/atau kategori/event.</p>
+        </div>
+        <div class="card">
+          <form method="get" action="/kas" class="row row-3" style="align-items:end;">
+            <div class="form-group mb-0"><label>Dari Tanggal</label><input type="date" name="from" value="<%= f.from||'' %>"></div>
+            <div class="form-group mb-0"><label>Sampai Tanggal</label><input type="date" name="to" value="<%= f.to||'' %>"></div>
+            <div class="form-group mb-0"><label>Kategori / Event</label>
+              <select name="category"><option value="">-- Semua --</option><% (cats||[]).forEach(c=>{ %><option value="<%= c %>" <%= f.category===c?'selected':'' %>><%= c %></option><% }) %></select>
+            </div>
+            <div class="form-group mb-0" style="grid-column:1/-1"><button class="btn btn-primary" type="submit">Terapkan Filter</button> <a class="btn btn-outline" href="/kas">Reset</a></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Rincian Transaksi</h2>
+          <p>Rincian pemasukan dan pengeluaran kas beserta keterangan penggunaannya<%= hasFilter ? ' (hasil filter)' : '' %>.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tanggal</th><th>Uraian / Penggunaan</th><th>Kategori/Event</th><th>Jenis</th><th>Jumlah</th><th>Bukti</th></tr></thead>
+            <tbody>
+              <% if(!rows || !rows.length){ %><tr><td colspan="6" class="muted">Belum ada transaksi<%= hasFilter ? ' untuk filter ini' : '' %>.</td></tr><% } %>
+              <% (rows||[]).forEach(r=>{ %>
+              <tr>
+                <td><%= fmtDate(r.date) %></td>
+                <td><%= r.description %></td>
+                <td><%= r.category %></td>
+                <td><%= (r.type||'').charAt(0).toUpperCase() + (r.type||'').slice(1) %></td>
+                <td><%= fmtRp(r.amount) %></td>
+                <td><% if(r.attachment){ %><a href="/<%= r.attachment %>" target="_blank" rel="noopener">Lihat/Unduh</a><% } else { %>-<% } %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted mt-2">Untuk pertanyaan terkait kas, silakan hubungi pengurus melalui halaman <a href="/kontak">Kontak</a>.</p>
+      </div>
+    </section>
+<%- include('../partials/footer') %>

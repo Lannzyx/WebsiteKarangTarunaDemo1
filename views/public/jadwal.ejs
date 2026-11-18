@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+    <section class="page-head">
+      <div class="container">
+        <h1>Jadwal Kegiatan</h1>
+        <p class="muted">Daftar agenda dan kegiatan <%= S('site_name') %>.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Agenda Mendatang</h2>
+          <p>Kegiatan yang akan dilaksanakan dalam waktu dekat.</p>
+        </div>
+        <div class="grid grid-2">
+          <% if(!upcoming || !upcoming.length){ %><p class="muted">Belum ada jadwal kegiatan.</p><% } %>
+          <% (upcoming||[]).forEach(r=>{ %>
+          <div class="card">
+            <h3><%= r.title %></h3>
+            <p class="card-meta"><strong>Tanggal:</strong> <%= fmtDate(r.date) %><br><strong>Waktu:</strong> <%= r.time_text %><br><strong>Lokasi:</strong> <%= r.location %></p>
+            <p><%- String(r.description||'').replace(/\n/g,'<br>') %></p>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Rekap Jadwal (Tabel)</h2>
+          <p>Tampilan ringkas seluruh jadwal dalam bentuk tabel agar mudah dibaca.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tanggal</th><th>Waktu</th><th>Kegiatan</th><th>Lokasi</th><th>Keterangan</th></tr></thead>
+            <tbody>
+              <% if(!rows || !rows.length){ %><tr><td colspan="5" class="muted">Belum ada jadwal.</td></tr><% } %>
+              <% (rows||[]).forEach(r=>{ %>
+              <tr>
+                <td><%= fmtDate(r.date) %></td>
+                <td><%= r.time_text %></td>
+                <td><%= r.title %></td>
+                <td><%= r.location %></td>
+                <td><%= r.description %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted mt-2">*Jadwal dapat berubah. Untuk informasi terbaru, silakan hubungi pengurus melalui halaman <a href="/kontak">Kontak</a>.</p>
+      </div>
+    </section>
+<%- include('../partials/footer') %>
